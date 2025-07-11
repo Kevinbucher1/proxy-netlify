@@ -1,11 +1,11 @@
 {
-  "name": "proxy-netlify-function",
+  "name": "leadbyte-webhook",
   "version": "1.0.0",
-  "description": "Proxy for LeadByte webhook",
-  "dependencies": {
-    "node-fetch": "^2.6.7"
-  },
+  "type": "module",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "googleapis": "^127.0.0"
   }
 }
