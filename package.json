@@ -1,0 +1,8 @@
+{
+  "name": "proxy-netlify-function",
+  "version": "1.0.0",
+  "description": "Proxy for LeadByte webhook",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
