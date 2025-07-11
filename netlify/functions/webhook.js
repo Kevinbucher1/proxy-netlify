@@ -54,7 +54,7 @@ export async function handler(event) {
       lead.formation || '',           // 17. formation
       lead.thematique || '',          // 18. thematique
       lead.desired_training || '',    // 19. desired_training
-      body                            // 20. raw_response
+      deliveryData                    // 20. La nouvelle "delivery data"
   ];
 
   try {
