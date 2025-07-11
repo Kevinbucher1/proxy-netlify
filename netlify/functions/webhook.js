@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-const TOKEN_ATTENDU = 'jdsbqurhv23dka'; // Le mot de passe secret
+const TOKEN_ATTENDU = 'jdsbqurhv23dka';
 const SPREADSHEET_ID = '16FrKAWGvlPASgB4St8LwLhK96Oaurdy4__XnbTFzFTM';
 const RANGE = 'Export Automatique Leadbyte';
 
@@ -15,9 +15,9 @@ const sheets = google.sheets({ version: 'v4', auth });
 
 
 export async function handler(event) {
-  // --- VÉRIFICATION DU TOKEN ---
+  // --- Vérification du token (ne pas modifier) ---
   if (event.queryStringParameters?.token !== TOKEN_ATTENDU) {
-    console.error("Tentative d'accès avec un token invalide.");
+    console.error("Accès refusé : token invalide.");
     return { statusCode: 403, body: 'Forbidden' };
   }
 
@@ -27,12 +27,16 @@ export async function handler(event) {
     const data = JSON.parse(body);
     record = data.records?.[0] || {};
   } catch (e) {
-    console.error('Erreur parsing JSON :', e);
-    return { statusCode: 400, body: 'Bad Request: invalid JSON' };
+    console.error('Erreur de lecture JSON :', e);
+    return { statusCode: 400, body: 'Bad Request' };
   }
 
   const lead = record.lead || {};
   const campaign = record.campaign || {};
+  
+  // ▼▼▼ LIGNES IMPORTANTES QUI CRÉENT LA VARIABLE ▼▼▼
+  const firstDelivery = (record.deliveries && record.deliveries.length > 0) ? record.deliveries[0] : {};
+  const deliveryData = firstDelivery.rawResponse || '';
   
   const rowData = [
       lead.id || '',                  // 1. lead_id
@@ -54,7 +58,7 @@ export async function handler(event) {
       lead.formation || '',           // 17. formation
       lead.thematique || '',          // 18. thematique
       lead.desired_training || '',    // 19. desired_training
-      deliveryData                    // 20. La nouvelle "delivery data"
+      deliveryData                    // 20. La "delivery data"
   ];
 
   try {
